@@ -1,5 +1,5 @@
 # xShop
-Supérette RUI V2 opti 0.00ms.
+Admin menu RUI V2 opti 0.04ms.
 
 - ESX
 - RageUI V2

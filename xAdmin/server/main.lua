@@ -5,7 +5,7 @@ local activeStaff = {}
 local activePlayers = {}
 
 local admins = {
-    'steam:11000014139d7f1',
+    'steam:x',
 }
 
 function isAdmin(player)

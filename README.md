@@ -1,4 +1,4 @@
-# xShop
+# xAdmin
 Admin menu RUI V2 opti 0.04ms.
 
 - ESX

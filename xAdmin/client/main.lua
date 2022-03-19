@@ -35,7 +35,7 @@ RegisterNetEvent('esx_ambulancejob:revive')
 AddEventHandler('esx_ambulancejob:revive', function()
     local playerPed = PlayerPedId()
     local coords = GetEntityCoords(playerPed, false)
-    _TriggerServerEvent('esx_ambulancejob:setDeathStatus', 0)
+    TriggerServerEvent('esx_ambulancejob:setDeathStatus', 0)
     TriggerEvent('esx_status:resetStatus')
 
     Citizen.CreateThread(function()

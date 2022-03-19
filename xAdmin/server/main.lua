@@ -157,47 +157,63 @@ end)
 RegisterNetEvent("xAdmin:giveitem")
 AddEventHandler("xAdmin:giveitem", function(id, item, quantite)
     local xPlayer = ESX.GetPlayerFromId(id)
+    local staff = source
     
-    xPlayer.addInventoryItem(item, tonumber(quantite))
-    TriggerClientEvent('esx:showNotification', source, '~g~Give effectué avec succès !')
+    if isAdmin(staff) then
+        xPlayer.addInventoryItem(item, tonumber(quantite))
+        TriggerClientEvent('esx:showNotification', source, '~g~Give effectué avec succès !')
+    end
 end)
 RegisterNetEvent("xAdmin:givearme")
 AddEventHandler("xAdmin:givearme", function(id, arme, quantite)
     local xPlayer = ESX.GetPlayerFromId(id)
+    local staff = source
     
-    xPlayer.addWeapon(arme, tonumber(quantite))
-    TriggerClientEvent('esx:showNotification', source, '~g~Give effectué avec succès !')
+    if isAdmin(staff) then
+        xPlayer.addWeapon(arme, tonumber(quantite))
+        TriggerClientEvent('esx:showNotification', source, '~g~Give effectué avec succès !')
+    end
 end)
 RegisterNetEvent("xAdmin:givemoney")
 AddEventHandler("xAdmin:givemoney", function(id, types, quantite)
     local xPlayer = ESX.GetPlayerFromId(id)
+    local staff = source
     
-    if types == 'bank' then
-        xPlayer.addAccountMoney(types, tonumber(quantite))
-        TriggerClientEvent('esx:showNotification', source, '~g~Give effectué avec succès !')
-    else
-        xPlayer.addMoney(tonumber(quantite))
-        TriggerClientEvent('esx:showNotification', source, '~g~Give effectué avec succès !')
+    if isAdmin(staff) then
+        if types == 'bank' then
+            xPlayer.addAccountMoney(types, tonumber(quantite))
+            TriggerClientEvent('esx:showNotification', source, '~g~Give effectué avec succès !')
+        else
+            xPlayer.addMoney(tonumber(quantite))
+            TriggerClientEvent('esx:showNotification', source, '~g~Give effectué avec succès !')
+        end
     end
 end)
 RegisterNetEvent("xAdmin:setjob")
 AddEventHandler("xAdmin:setjob", function(id, job, grade)
     local xPlayer = ESX.GetPlayerFromId(id)
+    local staff = source
     
-    xPlayer.setJob(job, tonumber(grade))
-    TriggerClientEvent('esx:showNotification', source, '~g~Setjob effectué avec succès !')
+    if isAdmin(staff) then
+        xPlayer.setJob(job, tonumber(grade))
+        TriggerClientEvent('esx:showNotification', source, '~g~Setjob effectué avec succès !')
+    end
 end)
 
 -- Revive
 
 RegisterNetEvent('xAdmin:revive')
 AddEventHandler('xAdmin:revive', function(id)
-    if id ~= nil then
-        if GetPlayerName(tonumber(id)) ~= nil then
-            TriggerClientEvent('esx_ambulancejob:revive', tonumber(id))
+    local staff = source
+
+    if isAdmin(staff) then
+        if id ~= nil then
+            if GetPlayerName(tonumber(id)) ~= nil then
+                TriggerClientEvent('esx_ambulancejob:revive', tonumber(id))
+            end
+        else
+            TriggerClientEvent('esx_ambulancejob:revive', source)
         end
-    else
-        TriggerClientEvent('esx_ambulancejob:revive', source)
     end
 end)
 
@@ -238,11 +254,14 @@ end)
 RegisterServerEvent("xAdmin:bring")
 AddEventHandler("xAdmin:bring",function(IdDuMec, plyPedCoords, lequel)
     local xPlayer = ESX.GetPlayerFromId(source)
+    local staff = source
 
-    if lequel == "bring" then
-        TriggerClientEvent("xAdmin:bring", IdDuMec, plyPedCoords)
-    else
-        TriggerClientEvent("xAdmin:bring", plyPedCoords, IdDuMec)
+    if isAdmin(staff) then
+        if lequel == "bring" then
+            TriggerClientEvent("xAdmin:bring", IdDuMec, plyPedCoords)
+        else
+            TriggerClientEvent("xAdmin:bring", plyPedCoords, IdDuMec)
+        end
     end
 
 end)

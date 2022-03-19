@@ -18,7 +18,7 @@ end)
 
 Citizen.CreateThread(function()
     while true do
-        Citizen.Wait( 2000 )
+        Citizen.Wait(2000)
 
         if NetworkIsSessionStarted() then
             TriggerServerEvent("checkadmin")

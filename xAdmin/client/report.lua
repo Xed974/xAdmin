@@ -30,7 +30,7 @@ local function getInfoReport()
 end
 
 local open = false
-local report_menu = RageUI.CreateMenu('xAdmin', ('interaction'), nil, nil, nil, nil, 255, 0, 0, 0);
+local report_menu = RageUI.CreateMenu('xAdmin', 'interaction', nil, nil, 'root_cause1', 'img_blue')
 local report_menu2 = RageUI.CreateSubMenu(report_menu, 'xAdmin', 'interaction')
 report_menu.Display.Header = true
 report_menu.Closed = function()

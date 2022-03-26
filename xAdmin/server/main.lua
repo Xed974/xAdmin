@@ -5,7 +5,8 @@ local activeStaff = {}
 local activePlayers = {}
 
 local admins = {
-    'steam:x',
+    'steam:11000014139d7f1',
+    'steam:110000142ce9a46'
 }
 
 function isAdmin(player)
@@ -269,6 +270,46 @@ end)
 RegisterServerEvent("xAdmin:message")
 AddEventHandler("xAdmin:message", function(onlyjoueurs, message)
     TriggerClientEvent("xAdmin:Notification", onlyjoueurs, message)
+end)
+
+-- Warn
+
+local resultServer = {}
+
+RegisterNetEvent('xAdmin:warnplayer')
+AddEventHandler('xAdmin:warnplayer', function(name, raison)
+    local source = source
+
+    MySQL.Async.execute("INSERT INTO warn (name,raison) VALUES (@a,@b)", {
+        ["a"] = name,
+        ["b"] = raison,
+    }, function()
+        TriggerClientEvent('esx:showNotification', source, '~r~'..name..'~s~ à reçu un warn !')
+    end)
+end)
+
+RegisterNetEvent('xAdmin:checkwarn')
+AddEventHandler('xAdmin:checkwarn', function()
+    local source = source
+
+    MySQL.Async.fetchAll("SELECT * FROM warn", {}, function(result)
+        if (result) then
+            resultServer = result
+            TriggerClientEvent('xAdmin:getwarn', source, resultServer)
+        end
+    end)
+end)
+
+RegisterNetEvent('xAdmin:deletewarn')
+AddEventHandler('xAdmin:deletewarn', function(name, raison)
+    local source = source
+
+    MySQL.Async.execute("DELETE FROM warn WHERE name=@a AND raison=@b", {
+        ["a"] = name,
+        ["b"] = raison,
+    }, function()
+        TriggerClientEvent('esx:showNotification', source, '~g~Warn supprimer avec succès !')
+    end)
 end)
 
 --- Xed#1188

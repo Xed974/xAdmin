@@ -5,7 +5,7 @@ Config.Touches = {
     TP = 51, -- Bind pour se TP sur marqueur | https://docs.fivem.net/docs/game-references/controls/
 }
 Config.Settings = {
-    Armes = true, -- Si vos armes ne sont pas en item laisser true/false si vos armes sont en item
+    Armes = false, -- Si vos armes ne sont pas en item laisser true/false si vos armes sont en item
 }
 
 --- Xed#1188

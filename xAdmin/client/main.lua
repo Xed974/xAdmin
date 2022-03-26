@@ -51,6 +51,15 @@ AddEventHandler('esx_ambulancejob:revive', function()
     end)
 end)
 
+-- Warn
+
+local resultClient = {}
+
+RegisterNetEvent('xAdmin:getwarn')
+AddEventHandler('xAdmin:getwarn', function(resultServer)
+    resultClient = resultServer
+end)
+
 -- GamerTags
 
 Admin = {
@@ -296,6 +305,7 @@ Citizen.CreateThread(function()
             SetEntityRotation(noclipEntity, 0.0, 0.0, 0.0, 0, false)
             SetEntityHeading(noclipEntity, heading)
             SetEntityCoordsNoOffset(noclipEntity, newPos.x, newPos.y, newPos.z, noclipActive, noclipActive, noclipActive)
+        else
         end
     end
 end)
@@ -317,12 +327,14 @@ end
 
 --
 
-local admin_menu = RageUI.CreateMenu("xAdmin", ("interaction"), nil, nil, nil, nil, 255, 0, 0, 0);
+local admin_menu = RageUI.CreateMenu('xAdmin', 'interaction', nil, nil, 'root_cause1', 'img_blue')
 local admin_menu_player = RageUI.CreateSubMenu(admin_menu, "xAdmin", "interaction")
 local admin_menu_player2 = RageUI.CreateSubMenu(admin_menu, "xAdmin", "interaction")
 local admin_menu_player3 = RageUI.CreateSubMenu(admin_menu, "xAdmin", "interaction")
 local admin_menu_player4 = RageUI.CreateSubMenu(admin_menu, "xAdmin", "interaction")
 local admin_menu_player5 = RageUI.CreateSubMenu(admin_menu, "xAdmin", "interaction")
+local admin_menu_player6 = RageUI.CreateSubMenu(admin_menu, "xAdmin", "interaction")
+local listewarn = RageUI.CreateSubMenu(admin_menu, "xAdmin", "interaction")
 admin_menu.Closed = function()
     isMenuOpened = false
 end
@@ -500,6 +512,10 @@ local function openAdminMenu()
                         end
                     end, 
                 })
+                RageUI.Button('Warn', nil, {RightLabel = "→"}, true, {
+                    onSelected = function()
+                    end
+                }, admin_menu_player6)
             end)
             RageUI.IsVisible(admin_menu_player4, function()
                 RageUI.Button('NoClip', nil, { RightLabel = "→" }, true, {
@@ -605,6 +621,35 @@ local function openAdminMenu()
                             ESX.ShowNotification('~r~Impossible d\'effectuer cette action !')
                         end
                     end)
+                end
+            end)
+            RageUI.IsVisible(admin_menu_player6, function()
+                RageUI.Button('Warn un joueur', nil, {RightLabel = "→"}, true, {
+                    onSelected = function()
+                        local name = KeyboardInput('Nom du joueur:', '', 20)
+                        local raison = KeyboardInput('Raison du warn:', '', 255)
+                        TriggerServerEvent('xAdmin:warnplayer', name, raison)
+                    end
+                })
+                RageUI.Button('Afficher la liste des warns', nil, {RightLabel = "→"}, true, {
+                    onSelected = function()
+                        TriggerServerEvent('xAdmin:checkwarn')
+                    end
+                }, listewarn)
+            end)
+            RageUI.IsVisible(listewarn, function()
+                for k,v in pairs(resultClient) do
+                    RageUI.Button(v.name, "~b~Motif :~s~ "..v.raison, {RightLabel = ""}, true, {
+                        onSelected = function()
+                            local verif = KeyboardInput('Etes vous sur de vouloir supprimer ce warn ? Y or N', '', 1)
+                            if verif == 'Y' or 'y' then
+                                local name = v.name
+                                local raison = v.raison
+                                TriggerServerEvent('xAdmin:deletewarn', name, raison)
+                                RageUI.CloseAll()
+                            end
+                        end
+                    })
                 end
             end)
         end
